@@ -154,23 +154,18 @@
     });
   }
 
-  // Render Navigation Categories with live counts
+  // Render Navigation Categories (Clean tabs without number bubbles)
   function renderNavCategories() {
     const navList = document.getElementById('main-nav-links');
     if (!navList) return;
 
     navList.innerHTML = CATEGORIES.map(cat => {
-      const count = cat.id === 'all' 
-        ? state.articles.length 
-        : state.articles.filter(a => a.category === cat.id).length;
-      
       const isActive = state.currentCategory === cat.id ? 'active' : '';
 
       return `
         <li class="nav-item">
           <a href="#${cat.id}" class="nav-link ${isActive}" data-category="${cat.id}">
             <span>${cat.name}</span>
-            <span class="nav-badge-count">${count}</span>
           </a>
         </li>
       `;
@@ -282,7 +277,12 @@
     }
 
     if (resultCountEl) {
-      resultCountEl.textContent = `${filtered.length} ताज्या बातम्या`;
+      if (state.searchQuery.trim()) {
+        resultCountEl.textContent = `शोध निकाल: ${filtered.length}`;
+        resultCountEl.style.display = 'inline-block';
+      } else {
+        resultCountEl.style.display = 'none';
+      }
     }
 
     if (filtered.length === 0) {
@@ -513,7 +513,9 @@
   function updateBookmarkCountUI() {
     const badge = document.getElementById('saved-count-badge');
     if (badge) {
-      badge.textContent = state.bookmarks.length;
+      const count = state.bookmarks.length;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'inline-block' : 'none';
     }
   }
 
