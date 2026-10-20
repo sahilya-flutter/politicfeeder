@@ -144,16 +144,32 @@
         <!-- Main Content Grid with Sidebar -->
         <div class="content-columns" id="latest-news-section">
           
-          <!-- Left Column: News Cards Grid -->
+          <!-- Left Column: Tajya Ghadamodi News Hub -->
           <div class="main-news-col">
-            <div class="section-header">
-              <h2 class="section-title">
-                <i>📰</i> <span>ताज्या घडामोडी</span>
-              </h2>
-              <span id="grid-results-count" style="font-size: 0.875rem; color: var(--text-subtle); font-weight: 600;">सर्व बातम्या</span>
+            
+            <!-- Tajya Ghadamodi Modern Section Header -->
+            <div class="tajya-header-bar">
+              <div class="tajya-title-wrap">
+                <span class="live-indicator-dot"></span>
+                <h2 class="tajya-section-title">ताज्या घडामोडी</h2>
+                <span class="badge-tag live" style="font-size: 0.75rem; padding: 0.2rem 0.6rem;">LIVE २४×७</span>
+              </div>
+
+              <div class="tajya-controls-wrap">
+                <span id="grid-results-count" style="font-size: 0.875rem; color: var(--text-subtle); font-weight: 700;">१२ बातम्या</span>
+                <div class="view-mode-switcher">
+                  <button class="view-btn active" id="btn-view-grid" title="मॅगझिन ग्रिड व्ह्यू">
+                    <span>▦ ग्रिड व्ह्यू</span>
+                  </button>
+                  <button class="view-btn" id="btn-view-list" title="लाईव्ह टाईमलाईन फीड">
+                    <span>☰ टाईमलाईन</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div class="news-cards-grid" id="news-cards-grid">
+            <!-- Dynamic News Container (Switches between Grid & List View) -->
+            <div id="news-cards-container" class="news-cards-grid">
               <!-- Rendered via JS -->
             </div>
           </div>

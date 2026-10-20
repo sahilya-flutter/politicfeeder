@@ -30,7 +30,8 @@
     theme: 'light',
     isAdminMode: false,
     fontSizeMultiplier: 1.0,
-    isSpeaking: false
+    isSpeaking: false,
+    viewMode: 'grid'
   };
 
   // Preset news images for quick selection in admin panel
@@ -251,11 +252,11 @@
     });
   }
 
-  // Render Filtered News Grid
+  // Render Filtered News Grid (Supports Grid & Timeline List View Modes)
   function renderNewsGrid() {
-    const grid = document.getElementById('news-cards-grid');
+    const container = document.getElementById('news-cards-container') || document.getElementById('news-cards-grid');
     const resultCountEl = document.getElementById('grid-results-count');
-    if (!grid) return;
+    if (!container) return;
 
     let filtered = [...state.articles];
 
@@ -281,16 +282,17 @@
     }
 
     if (resultCountEl) {
-      resultCountEl.textContent = `${filtered.length} बातम्या उपलब्ध`;
+      resultCountEl.textContent = `${filtered.length} ताज्या बातम्या`;
     }
 
     if (filtered.length === 0) {
-      grid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px dashed var(--border-subtle);">
-          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
-          <h3 style="font-family: var(--font-heading); margin-bottom: 0.5rem;">कोणतीही बातमी सापडली नाही</h3>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">कृपया वेगळे शब्द वापरून शोधा किंवा वर्गवारी बदला.</p>
-          <button class="primary-btn" id="reset-filters-btn" style="margin-top: 1rem;">सर्व बातम्या पहा</button>
+      container.className = 'news-cards-grid';
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem; background: var(--bg-surface); border-radius: var(--radius-md); border: 2px dashed var(--border-strong);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔍</div>
+          <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.5rem;">कोणतीही बातमी सापडली नाही</h3>
+          <p style="color: var(--text-muted); font-size: 1rem; font-weight: 500;">कृपया वेगळे शब्द वापरून शोधा किंवा वर्गवारी बदला.</p>
+          <button class="primary-btn" id="reset-filters-btn" style="margin-top: 1.25rem;">सर्व बातम्या पहा</button>
         </div>
       `;
       const resetBtn = document.getElementById('reset-filters-btn');
@@ -307,44 +309,94 @@
       return;
     }
 
-    grid.innerHTML = filtered.map(item => {
-      const isSaved = state.bookmarks.includes(item.id);
-      return `
-        <article class="news-card" data-id="${item.id}">
-          <div class="news-card-image">
-            <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80'"/>
-            ${item.isBreaking ? '<span class="badge-tag breaking" style="position: absolute; top: 0.75rem; left: 0.75rem;">ब्रेकिंग</span>' : ''}
-          </div>
-          <div class="news-card-body">
-            <div class="news-card-category-row">
-              <span class="card-category-pill">${item.categoryName} • ${item.district || 'महाराष्ट्र'}</span>
-              <button class="card-bookmark-btn ${isSaved ? 'saved' : ''}" data-id="${item.id}" title="बुकमार्क करा">
-                ${isSaved ? '★' : '☆'}
-              </button>
+    // Check display mode: 'grid' vs 'list'
+    if (state.viewMode === 'list') {
+      // Timeline / Feed Mode
+      container.className = 'news-cards-feed';
+      container.innerHTML = filtered.map(item => {
+        const isSaved = state.bookmarks.includes(item.id);
+        return `
+          <article class="news-feed-card" data-id="${item.id}">
+            <div class="feed-thumb-wrap">
+              <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80'"/>
+              ${item.isBreaking ? '<span class="badge-tag breaking" style="position: absolute; top: 0.65rem; left: 0.65rem;">⚡ ब्रेकिंग</span>' : ''}
             </div>
-            <h3 class="news-card-title">${item.title}</h3>
-            <p class="news-card-snippet">${item.summary}</p>
-            <div class="news-card-footer">
-              <span>🕒 ${item.date.split(',')[0]}</span>
-              <span>⏱️ ${item.readTime || '२ मिनिटे'}</span>
-              <span>👁️ ${item.views}</span>
+            <div class="feed-content-wrap">
+              <div class="feed-top-meta">
+                <div class="feed-tags">
+                  <span class="card-category-pill">${item.categoryName}</span>
+                  <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-subtle);">📍 ${item.district || 'महाराष्ट्र'}</span>
+                  <span style="font-size: 0.775rem; color: var(--breaking-red); font-weight: 800;">🔴 ताज्या अपडेट्स</span>
+                </div>
+                <button class="card-bookmark-btn ${isSaved ? 'saved' : ''}" data-id="${item.id}" title="बुकमार्क करा">
+                  ${isSaved ? '★' : '☆'}
+                </button>
+              </div>
+              <h3 class="feed-title">${item.title}</h3>
+              <p class="feed-snippet">${item.summary}</p>
+              <div class="feed-bottom-row">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                  <span>✍️ ${item.author ? item.author.split(',')[0] : 'पॉलिटिकफीडर डेस्क'}</span>
+                  <span>🕒 ${item.date.split(',')[0]}</span>
+                  <span>👁️ ${item.views} वाचक</span>
+                </div>
+                <button class="feed-read-btn">
+                  <span>सविस्तर वाचा</span> &rarr;
+                </button>
+              </div>
             </div>
-          </div>
-        </article>
-      `;
-    }).join('');
+          </article>
+        `;
+      }).join('');
 
-    // Click on card opens modal
-    grid.querySelectorAll('.news-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.card-bookmark-btn')) return; // ignore bookmark button
-        const id = card.getAttribute('data-id');
-        openArticleModal(id);
+      container.querySelectorAll('.news-feed-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.card-bookmark-btn')) return;
+          const id = card.getAttribute('data-id');
+          openArticleModal(id);
+        });
       });
-    });
+    } else {
+      // Magazine Grid Mode
+      container.className = 'news-cards-grid';
+      container.innerHTML = filtered.map(item => {
+        const isSaved = state.bookmarks.includes(item.id);
+        return `
+          <article class="news-card" data-id="${item.id}">
+            <div class="news-card-image">
+              <img src="${item.image}" alt="${item.title}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=80'"/>
+              ${item.isBreaking ? '<span class="badge-tag breaking" style="position: absolute; top: 0.75rem; left: 0.75rem;">⚡ ब्रेकिंग</span>' : ''}
+            </div>
+            <div class="news-card-body">
+              <div class="news-card-category-row">
+                <span class="card-category-pill">${item.categoryName} • ${item.district || 'महाराष्ट्र'}</span>
+                <button class="card-bookmark-btn ${isSaved ? 'saved' : ''}" data-id="${item.id}" title="बुकमार्क करा">
+                  ${isSaved ? '★' : '☆'}
+                </button>
+              </div>
+              <h3 class="news-card-title">${item.title}</h3>
+              <p class="news-card-snippet">${item.summary}</p>
+              <div class="news-card-footer">
+                <span>🕒 ${item.date.split(',')[0]}</span>
+                <span>⏱️ ${item.readTime || '२ मिनिटे'}</span>
+                <span>👁️ ${item.views}</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
 
-    // Bookmark button click
-    grid.querySelectorAll('.card-bookmark-btn').forEach(btn => {
+      container.querySelectorAll('.news-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.card-bookmark-btn')) return;
+          const id = card.getAttribute('data-id');
+          openArticleModal(id);
+        });
+      });
+    }
+
+    // Bookmark button click handling
+    container.querySelectorAll('.card-bookmark-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const id = btn.getAttribute('data-id');
@@ -1061,6 +1113,26 @@
       });
     }
 
+    // View Switcher (Grid vs List / Timeline Feed)
+    const btnGrid = document.getElementById('btn-view-grid');
+    const btnList = document.getElementById('btn-view-list');
+    if (btnGrid) {
+      btnGrid.addEventListener('click', () => {
+        state.viewMode = 'grid';
+        btnGrid.classList.add('active');
+        if (btnList) btnList.classList.remove('active');
+        renderNewsGrid();
+      });
+    }
+    if (btnList) {
+      btnList.addEventListener('click', () => {
+        state.viewMode = 'list';
+        btnList.classList.add('active');
+        if (btnGrid) btnGrid.classList.remove('active');
+        renderNewsGrid();
+      });
+    }
+
     // Saved Bookmarks Button in Top Brand Row
     const savedArticlesBtn = document.getElementById('saved-articles-btn');
     if (savedArticlesBtn) {
@@ -1071,9 +1143,10 @@
         }
         // Filter grid to bookmarks
         const bookmarkedArticles = state.articles.filter(a => state.bookmarks.includes(a.id));
-        const grid = document.getElementById('news-cards-grid');
+        const grid = document.getElementById('news-cards-container') || document.getElementById('news-cards-grid');
         if (grid) {
           document.getElementById('grid-results-count').textContent = `सेव्ह केलेल्या ${bookmarkedArticles.length} बातम्या`;
+          grid.className = 'news-cards-grid';
           grid.innerHTML = bookmarkedArticles.map(item => `
             <article class="news-card" data-id="${item.id}">
               <div class="news-card-image">
