@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="mr" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PoliticFeeder | पॉलिटिकफीडर - महाराष्ट्राचा निर्भीड मराठी न्यूज पोर्टल</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="पॉलिटिकफीडर (PoliticFeeder): महाराष्ट्रातील ताज्या राजकीय घडामोडी, विधिमंडळ अधिवेशन, शेतकरी प्रश्न, मुंबई-पुणे इन्फ्रास्ट्रक्चर, देश, आंतरराष्ट्रीय आणि क्रीडा क्षेत्रातील सडेतोड व सत्य बातम्या.">
+  <meta name="keywords" content="PoliticFeeder, मराठी बातम्या, महाराष्ट्र राजकारण, मुंबई, पुणे, नागपूर, नाशिक, ताज्या घडामोडी, Marathi News, Politics Feeder">
+  <meta name="author" content="PoliticFeeder Media Network">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="PoliticFeeder | पॉलिटिकफीडर - महाराष्ट्राचा निर्भीड आवाज">
+  <meta property="og:description" content="महाराष्ट्रातील विश्वसनीय व सडेतोड मराठी डिजिटल न्यूज पोर्टल.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/logo.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. FRONTEND: PUBLIC NEWS PORTAL VIEW
+       ========================================================================== -->
+  <div id="website-view" class="website-view">
+    
+    <!-- Top Utility Bar -->
+    <header class="top-bar">
+      <div class="container top-bar-inner">
+        <div class="top-bar-meta">
+          <span class="meta-item" id="live-marathi-datetime">मंगळवार, २० ऑक्टोबर २०२६ | वेळ: १२:००:००</span>
+          <span class="meta-item">📍 <strong>हवामान:</strong> मुंबई ३१°C | पुणे २८°C | नागपूर ३२°C</span>
+          <span class="meta-item" style="color: var(--accent-gold);">🔥 #विधानसभा #पुणेमेट्रो #शेतकरीकर्जमाफी</span>
+        </div>
+        <div class="top-bar-actions">
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="थीम बदला">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> डार्क थीम
+          </button>
+          <button class="admin-switch-btn" id="admin-switch-btn" title="अॅडमिन पॅनेल उघडा">
+            <span>⚙️</span> अॅडमिन पॅनेल
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Brand Header -->
+    <div class="brand-header">
+      <div class="container brand-row">
+        <div class="brand-identity" id="brand-identity" title="मुख्यपृष्ठावर जा">
+          <img src="assets/logo.jpg" alt="PoliticFeeder Logo" class="brand-logo-img" onerror="this.style.display='none'">
+          <div class="brand-text">
+            <h1>पॉलिटिक<span>फीडर</span></h1>
+            <p class="brand-tagline">महाराष्ट्राचा निर्भीड राजकीय व सामाजिक आवाज | सत्य, पारदर्शक व अचूक</p>
+          </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="brand-search-box">
+          <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="brand-search-input" class="brand-search-input" placeholder="बातम्या, नेते किंवा जिल्हा शोधा... (उदा. कर्जमाफी, मुंबई, इस्रो)" autocomplete="off">
+        </div>
+
+        <!-- Bookmarks Quick Action -->
+        <div class="brand-quick-actions">
+          <button class="badge-btn" id="saved-articles-btn" title="तुम्ही सेव्ह केलेल्या बातम्या">
+            <span>⭐ सेव्ह केलेल्या</span>
+            <span id="saved-count-badge" style="background: var(--blue-600); color: #fff; padding: 0.1rem 0.45rem; border-radius: 999px; font-size: 0.75rem;">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky Main Navigation -->
+    <nav class="main-nav">
+      <div class="container nav-container">
+        <ul class="nav-links" id="main-nav-links">
+          <!-- Dynamic navigation links generated via JS -->
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Breaking News Ticker -->
+    <div class="breaking-ticker">
+      <div class="ticker-badge">
+        <div class="ticker-pulse"></div>
+        <span>ब्रेकिंग न्यूज</span>
+      </div>
+      <div class="ticker-content">
+        <div class="ticker-marquee" id="breaking-ticker-marquee">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <main class="main-layout">
+      <div class="container">
+
+        <!-- District / City Filter Chips -->
+        <div class="filter-pills-bar" id="district-filter-bar">
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-right: 0.5rem; white-space: nowrap;">📍 जिल्हानिहाय:</span>
+          <button class="filter-pill active" data-district="all">सर्व महाराष्ट्र</button>
+          <button class="filter-pill" data-district="मुंबई">मुंबई</button>
+          <button class="filter-pill" data-district="पुणे">पुणे</button>
+          <button class="filter-pill" data-district="नागपूर">नागपूर</button>
+          <button class="filter-pill" data-district="नाशिक">नाशिक</button>
+          <button class="filter-pill" data-district="छत्रपती संभाजीनगर">छत्रपती संभाजीनगर</button>
+          <button class="filter-pill" data-district="कोल्हापूर">कोल्हापूर</button>
+          <button class="filter-pill" data-district="विदर्भ">विदर्भ</button>
+          <button class="filter-pill" data-district="मराठवाडा">मराठवाडा</button>
+        </div>
+
+        <!-- Hero Spotlight Section (Lead Story + Trending Cards) -->
+        <section class="hero-spotlight">
+          <div id="lead-story-container">
+            <!-- Lead story injected via JS -->
+          </div>
+          <div class="trending-side-grid" id="trending-side-container">
+            <!-- 3 Trending side cards injected via JS -->
+          </div>
+        </section>
+
+        <!-- PoliticFeeder Special Highlight Banner -->
+        <section class="politic-special-banner">
+          <div class="politic-banner-tag">पॉलिटिकफीडर विशेष विश्लेषण</div>
+          <div class="politic-banner-content">
+            <h3>सत्तेचा महासंग्राम: स्थानिक स्वराज्य संस्था ते विधानसभा समीकरणांची इनसाईड स्टोरी</h3>
+            <p>महाराष्ट्राच्या सत्तेच्या चाव्या कोणाकडे जाणार? ग्रामपंचायत, महापालिका आणि विधिमंडळातील अंतर्गत हालचाली, गुप्त बैठका आणि आघाड्यांच्या नव्या गणितांचे विशेष राजकीय विश्लेषण PoliticFeeder वर.</p>
+            <button class="primary-btn" onclick="document.querySelector('[data-category=politics]').click();" style="background: var(--accent-gold); color: #000; font-weight: 700;">
+              <span>सर्व राजकीय बातम्या वाचा &rarr;</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Main Content Grid with Sidebar -->
+        <div class="content-columns" id="latest-news-section">
+          
+          <!-- Left Column: News Cards Grid -->
+          <div class="main-news-col">
+            <div class="section-header">
+              <h2 class="section-title">
+                <i>📰</i> <span>ताज्या घडामोडी</span>
+              </h2>
+              <span id="grid-results-count" style="font-size: 0.875rem; color: var(--text-subtle); font-weight: 600;">सर्व बातम्या</span>
+            </div>
+
+            <div class="news-cards-grid" id="news-cards-grid">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Right Column: Sidebar Widgets -->
+          <aside class="sidebar">
+            
+            <!-- Daily Opinion Poll -->
+            <div class="widget-card">
+              <h3 class="widget-title">
+                <span>📊 आजचे जनमत (Opinion Poll)</span>
+              </h3>
+              <div id="opinion-poll-container">
+                <!-- Poll loaded via JS -->
+              </div>
+            </div>
+
+            <!-- Top 5 Trending Numbered Stories -->
+            <div class="widget-card">
+              <h3 class="widget-title">
+                <span>🔥 सर्वाधिक वाचलेल्या बातम्या</span>
+              </h3>
+              <div class="trending-numbered-list" id="trending-numbered-list">
+                <!-- Trending 5 items injected via JS -->
+              </div>
+            </div>
+
+            <!-- WhatsApp Channel Promo -->
+            <div class="channel-promo">
+              <h4>💬 PoliticFeeder व्हॉट्सॲप चॅनल</h4>
+              <p>सर्व ताज्या व ब्रेकिंग घडामोडी सर्वात आधी थेट तुमच्या मोबाईलवर मोफत मिळवा!</p>
+              <button class="channel-btn" onclick="alert('PoliticFeeder व्हॉट्सॲप चॅनल लवकरच उपलब्ध होईल!')">
+                <span>चॅनल जॉईन करा</span> &rarr;
+              </button>
+            </div>
+
+            <!-- Editorial Notice -->
+            <div class="widget-card" style="border-left: 4px solid var(--blue-600);">
+              <h4 style="font-family: var(--font-heading); font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--navy-900);">
+                संपादकीय वचनबद्धता
+              </h4>
+              <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+                पॉलिटिकफीडर हे कोणत्याही एका पक्षाचे किंवा राजकीय विचारसरणीचे मुखपत्र नसून संपूर्ण महाराष्ट्रातील जनतेच्या हक्काचा, निष्पक्ष आणि निर्भीड डिजिटल मंच आहे.
+              </p>
+            </div>
+
+          </aside>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem;">
+            <img src="assets/logo.jpg" alt="PoliticFeeder" style="width: 44px; height: 44px; border-radius: 8px; border: 1.5px solid var(--blue-400);" onerror="this.style.display='none'">
+            <h2 style="font-family: var(--font-heading); color: #fff; font-size: 1.6rem; letter-spacing: -0.5px;">पॉलिटिक<span style="color: var(--accent-cyan);">फीडर</span></h2>
+          </div>
+          <p class="footer-brand-desc">
+            महाराष्ट्रातील २८८ मतदारसंघ आणि ३६ जिल्ह्यांमधील राजकीय, सामाजिक आणि प्रशासकीय घडामोडींचे अचूक वार्तांकन करणारे अग्रगण्य मराठी न्यूज नेटवर्क. सत्य, पारदर्शकता आणि सडेतोड मांडणी हीच आमची ओळख.
+          </p>
+          <p style="font-size: 0.825rem; color: #64748b;">
+            मुख्य कार्यालय: नरिमन पॉईंट, मुंबई - ४०००२१ | एफिलिएट डेस्क: एफसी रोड, पुणे
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h3>मुख्य विभाग</h3>
+          <ul class="footer-links-list">
+            <li><a href="#maharashtra" onclick="document.querySelector('[data-category=maharashtra]').click(); return false;">महाराष्ट्र विशेष</a></li>
+            <li><a href="#politics" onclick="document.querySelector('[data-category=politics]').click(); return false;">राजकीय कट्टा</a></li>
+            <li><a href="#national" onclick="document.querySelector('[data-category=national]').click(); return false;">देश / संसद घडामोडी</a></li>
+            <li><a href="#world" onclick="document.querySelector('[data-category=world]').click(); return false;">जागतिक घडामोडी</a></li>
+            <li><a href="#business" onclick="document.querySelector('[data-category=business]').click(); return false;">अर्थ व कृषी बाजार</a></li>
+            <li><a href="#sports" onclick="document.querySelector('[data-category=sports]').click(); return false;">क्रीडा व कुस्ती</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>जिल्हा डेस्क</h3>
+          <ul class="footer-links-list">
+            <li><a href="#">मुंबई - ठाणे - पालघर</a></li>
+            <li><a href="#">पुणे - सातारा - सांगली</a></li>
+            <li><a href="#">नाशिक - उत्तर महाराष्ट्र</a></li>
+            <li><a href="#">छत्रपती संभाजीनगर - मराठवाडा</a></li>
+            <li><a href="#">नागपूर - अमरावती - विदर्भ</a></li>
+            <li><a href="#">कोल्हापूर - कोकण किनारपट्टी</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>माहिती व संपर्क</h3>
+          <ul class="footer-links-list">
+            <li><a href="#">आमच्याबद्दल (About Us)</a></li>
+            <li><a href="#">संपादकीय आचारसंहिता</a></li>
+            <li><a href="#">तक्रार निवारण अधिकारी</a></li>
+            <li><a href="#">जाहिरात व प्रसिद्धी</a></li>
+            <li><a href="#">गोपनीयता धोरण (Privacy)</a></li>
+          </ul>
+          <div style="margin-top: 1.25rem;">
+            <button class="primary-btn" onclick="document.getElementById('admin-switch-btn').click();" style="width: 100%; justify-content: center; font-size: 0.85rem;">
+              <span>🔒 संपादक / Admin लॉगिन</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom-row">
+        <div>
+          &copy; 2026 PoliticFeeder Media Private Limited. सर्व हक्क राखीव.
+        </div>
+        <div>
+          महाराष्ट्राचा अभिमान, मराठीचा सन्मान | Designed for High-Performance Digital Journalism
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================================================
+       2. FULL ARTICLE MODAL READER (सविस्तर वाचन कक्ष)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="article-modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header-bar">
+        <span style="font-weight: 700; color: var(--blue-600); font-size: 0.95rem;">
+          पॉलिटिकफीडर विशेष वाचन कक्ष
+        </span>
+        <button class="modal-close-btn" id="modal-close-btn" title="बंद करा">&times;</button>
+      </div>
+      <div class="modal-content-scroll" id="article-modal-body">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       3. ADMIN PANEL VIEW (अॅडमिन डॅशबोर्ड व बातमी व्यवस्थापन)
+       ========================================================================== -->
+  <div id="admin-view" class="admin-view">
+    
+    <!-- Admin Navbar -->
+    <header class="admin-navbar">
+      <div class="container admin-nav-inner">
+        <div class="admin-brand">
+          <img src="assets/logo.jpg" alt="Logo" style="width: 38px; height: 38px; border-radius: 6px; border: 1px solid var(--accent-gold);" onerror="this.style.display='none'">
+          <h2>पॉलिटिकफीडर <span style="color: var(--accent-cyan);">कंट्रोल पॅनेल</span></h2>
+          <span class="admin-brand-tag">ADMIN PRO</span>
+        </div>
+        <div class="admin-nav-actions">
+          <button class="back-to-web-btn" id="btn-back-to-web">
+            <span>🌐</span> वाचक पोर्टलवर परत जा
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Admin Dashboard Content -->
+    <main class="container">
+      
+      <!-- Key Metric Stats -->
+      <section class="admin-stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📰</div>
+          <div class="stat-data">
+            <h4 id="admin-stat-total">0</h4>
+            <p>एकूण मराठी बातम्या</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--breaking-red); background: var(--breaking-red-bg);">⚡</div>
+          <div class="stat-data">
+            <h4 id="admin-stat-breaking">0</h4>
+            <p>सक्रिय ब्रेकिंग अलर्ट्स</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: var(--accent-gold); background: var(--accent-gold-light);">👁️</div>
+          <div class="stat-data">
+            <h4 id="admin-stat-views">0</h4>
+            <p>एकूण वाचक संख्या (Views)</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">★</div>
+          <div class="stat-data">
+            <h4 id="admin-stat-lead">0</h4>
+            <p>मुख्य लीड बातम्या</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Toolbar -->
+      <div class="admin-actions-bar">
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <button class="primary-btn" id="btn-add-new-story">
+            <span>➕ नवीन बातमी जोडा</span>
+          </button>
+          <button class="secondary-btn" id="btn-export-data">
+            <span>💾 डेटा बॅकअप (JSON)</span>
+          </button>
+          <button class="secondary-btn" id="btn-reset-demo-data" style="color: var(--breaking-red);">
+            <span>🔄 डीफॉल्ट डेटा रीसेट करा</span>
+          </button>
+        </div>
+
+        <div style="min-width: 280px;">
+          <input type="text" id="admin-table-search" class="form-input" placeholder="शीर्षक किंवा वर्गवारी शोधा..." style="width: 100%;">
+        </div>
+      </div>
+
+      <!-- Articles Management Data Table -->
+      <section class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th style="width: 80px;">फोटो</th>
+              <th>बातमीचे शीर्षक व वार्ताहर</th>
+              <th style="width: 130px;">वर्गवारी</th>
+              <th style="width: 130px;">तारीख</th>
+              <th style="width: 120px;">स्थिती</th>
+              <th style="width: 100px;">वाचक</th>
+              <th style="width: 140px;">कृती (Actions)</th>
+            </tr>
+          </thead>
+          <tbody id="admin-articles-tbody">
+            <!-- Articles rendered via JS -->
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       4. ADMIN ARTICLE ADD / EDIT MODAL
+       ========================================================================== -->
+  <div class="modal-backdrop" id="admin-form-modal">
+    <div class="modal-window" style="max-width: 780px;">
+      <div class="modal-header-bar">
+        <h3 id="admin-form-modal-title" style="font-family: var(--font-heading); color: var(--navy-900);">
+          नवीन बातमी तयार करा
+        </h3>
+        <button class="modal-close-btn" id="admin-form-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-content-scroll" style="padding: 1.5rem;">
+        <form id="admin-article-form" onsubmit="return false;">
+          
+          <div class="form-group">
+            <label class="form-label" for="form-news-title">बातमीचे मुख्य शीर्षक (Title in Marathi) *</label>
+            <input type="text" id="form-news-title" class="form-input" placeholder="आकर्षक व सडेतोड शीर्षक लिहा..." required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="form-news-category">वर्गवारी (Category) *</label>
+              <select id="form-news-category" class="form-select">
+                <option value="maharashtra">महाराष्ट्र (Maharashtra)</option>
+                <option value="politics">राजकारण (Politics Feeder)</option>
+                <option value="national">देश / संसद (National)</option>
+                <option value="world">जग / आंतरराष्ट्रीय (World)</option>
+                <option value="business">अर्थ व व्यापार (Business)</option>
+                <option value="sports">क्रीडा (Sports)</option>
+                <option value="entertainment">मनोरंजन (Entertainment)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-news-district">जिल्हा / शहर (City / District)</label>
+              <input type="text" id="form-news-district" class="form-input" placeholder="उदा. मुंबई, पुणे, नागपूर, नाशिक...">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="form-news-author">संपादक / वार्ताहर नाव (Author)</label>
+              <input type="text" id="form-news-author" class="form-input" placeholder="उदा. संजय पाटील, विशेष राजकीय प्रतिनिधी">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="form-news-image">प्रतिमा URL (Image URL)</label>
+              <input type="url" id="form-news-image" class="form-input" placeholder="https://...">
+            </div>
+          </div>
+
+          <!-- Quick Image Presets -->
+          <div class="form-group">
+            <label class="form-label">किंवा रेडीमेड उच्च दर्जाचा फोटो निवडा:</label>
+            <div class="preset-images-list" id="preset-images-picker">
+              <!-- Preset images injected via JS -->
+            </div>
+          </div>
+
+          <div class="form-checkbox-row">
+            <label class="form-check">
+              <input type="checkbox" id="form-check-breaking">
+              <span>⚡ ब्रेकिंग न्यूज म्हणून दाखवा</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" id="form-check-lead">
+              <span>★ मुख्य लीड स्टोरी (Top Big Banner)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" id="form-check-trending" checked>
+              <span>🔥 ट्रेंडिंग बातमी</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="form-news-summary">संक्षिप्त सारांश (Short Summary / Lead - 2-3 ओळी) *</label>
+            <textarea id="form-news-summary" class="form-textarea" rows="2" placeholder="बातमीचा मुख्य गाभा थोडक्यात..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="form-news-content">सविस्तर मजकूर (Full Story Paragraphs)</label>
+            <textarea id="form-news-content" class="form-textarea" rows="6" placeholder="परिच्छेद पाडून संपूर्ण सविस्तर बातमी लिहा..."></textarea>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+            <button type="button" class="secondary-btn" id="admin-form-cancel-btn">रद्द करा</button>
+            <button type="button" class="primary-btn" id="admin-form-save-btn">
+              <span>✓ बातमी प्रसिद्ध करा</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="news-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
